@@ -75,7 +75,7 @@ class RegisterPage extends StatelessWidget {
                     filled: true,
                     fillColor: Colors.white,
                     contentPadding: EdgeInsets.all(15),
-                    hintText: 'Phone',
+                    hintText: 'Password',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     )
@@ -94,7 +94,7 @@ class RegisterPage extends StatelessWidget {
                     filled: true,
                     fillColor: Colors.white,
                     contentPadding: EdgeInsets.all(15),
-                    hintText: 'Password',
+                    hintText: 'Confirm Password',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     )

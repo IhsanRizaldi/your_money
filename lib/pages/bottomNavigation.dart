@@ -3,7 +3,6 @@ import 'package:your_money/pages/add.dart';
 import 'package:your_money/pages/history.dart';
 import 'package:your_money/pages/home.dart';
 import 'package:your_money/pages/profil.dart';
-import 'package:your_money/pages/statistic.dart';
 
 class BottomNavigation extends StatefulWidget {
   @override
@@ -15,7 +14,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   final List<Widget> _pages = [
     HomePage(),
-    StatisticPage(),
     AddPage(),
     HistoryPage(),
     ProfilPage(),
@@ -32,6 +30,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
         ),
         backgroundColor: Colors.purple.shade900,
         automaticallyImplyLeading: false,
+        
       ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -49,10 +48,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
           BottomNavigationBarItem(
             label: 'Home',
             icon: Icon(Icons.home),
-          ),
-          BottomNavigationBarItem(
-            label: 'Statistic',
-            icon: Icon(Icons.signal_cellular_alt),
           ),
           BottomNavigationBarItem(
             label: 'Add',

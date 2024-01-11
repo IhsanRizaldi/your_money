@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
+  
   @override
   Widget build(BuildContext context) {
     return ListView(
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: 30,left: 20,right: 20,bottom: 20),
+      children: [
+        Padding(
+          padding: EdgeInsets.all(20),
+          child: Container(
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
@@ -18,66 +20,54 @@ class HomePage extends StatelessWidget {
                 )
               ]
             ),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: "Apa Yang Kamu Cari?",
-                filled: true,
-                fillColor: Colors.white,
-                contentPadding: EdgeInsets.all(15),
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: Colors.black26,
-                  size: 20,
+          ),
+        ),
+        
+        CarouselSlider(
+          items: [
+            Container(
+              margin: EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                image: DecorationImage(
+                  image: AssetImage('assets/images/images1.png'),
+                  fit: BoxFit.cover,
                 ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide.none,
-                )
               ),
             ),
-          ),
-          CarouselSlider(
-            items: [
-          Container(
-            margin: EdgeInsets.all(10.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              image: DecorationImage(
-                image: AssetImage('assets/images/images1.png'),                
-                fit: BoxFit.cover,
+            Container(
+              margin: EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                image: DecorationImage(
+                  image: AssetImage('assets/images/images2.jpg'),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-          Container(
-            margin: EdgeInsets.all(10.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              image: DecorationImage(
-                image: AssetImage('assets/images/images2.jpg'),                
-                fit: BoxFit.cover,
+            Container(
+              margin: EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                image: DecorationImage(
+                  image: AssetImage('assets/images/images3.jpg'),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
+          ],
+          options: CarouselOptions(
+            height: 200.0,
+            enlargeCenterPage: true,
+            autoPlay: true,
+            aspectRatio: 16 / 9,
           ),
-          Container(
-            margin: EdgeInsets.all(10.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              image: DecorationImage(
-                image: AssetImage('assets/images/images3.jpg'),                
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        ], 
-            options: CarouselOptions(
-              height: 200.0,
-              enlargeCenterPage: true,
-              autoPlay: true,
-              aspectRatio: 16 / 9,
-            )
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+        ),
+        
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Icon(Icons.keyboard_arrow_left_sharp),
               Text(
@@ -89,77 +79,77 @@ class HomePage extends StatelessWidget {
               Icon(Icons.keyboard_arrow_right_sharp),
             ],
           ),
-          Container(
-            margin: EdgeInsets.only(top: 20, right: 55, left: 55),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text("Pemasukan"),
-                Padding(
-                  padding: EdgeInsets.only(left: 185),
-                  child: Text(
-                  "20000",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.green,
-                  ),
+        ),
+        
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 55, vertical: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Pemasukan",
+                style: TextStyle(
+                  fontSize: 16,
                 ),
-                )
-                
-              ],
-            ),
+              ),
+              Text(
+                "20000",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green,
+                  fontSize: 16,
+                ),
+              ),
+            ],
           ),
-          Container(
-            margin: EdgeInsets.only(top: 20, right: 55, left: 55),
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  width: 2.0,
+        ),
+        
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 55, vertical: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Pengeluaran",
+                style: TextStyle(
+                  fontSize: 16,
                 ),
-              )
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: 20),
-                  child: Text("Pengeluaran"),
+              ),
+              Text(
+                "10000",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red,
+                  fontSize: 16,
                 ),
-
-                Padding(
-                  padding: EdgeInsets.only(left: 180,bottom: 20),
-                  child: Text(
-                  "10000",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red,
-                  ),
-                ),
-                )
-                
-              ],
-            ),
+              ),
+            ],
           ),
-          Container(
-            margin: EdgeInsets.only(top: 20, right: 55, left: 55),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text("Total"),
-                Padding(
-                  padding: EdgeInsets.only(left: 225),
-                  child: Text(
-                  "10000",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
+        ),
+        
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 55, vertical: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Total",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
-                )
-                
-              ],
-            ),         
+              ),
+              Text(
+                "10000",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ],
           ),
-        ],
-      );
+        ),
+      ],
+    );
   }
 }
