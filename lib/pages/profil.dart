@@ -1,6 +1,84 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
-class ProfilPage extends StatelessWidget {
+class ProfilPage extends StatefulWidget {
+  @override
+  _ProfilPageState createState() => _ProfilPageState();
+}
+
+class _ProfilPageState extends State<ProfilPage> {
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  String _errorMessage = '';
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch user data when the page is loaded
+    fetchUserData();
+  }
+
+  Future<void> fetchUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String bearerToken = prefs.getString('bearerToken') ?? '';
+
+    final response = await http.get(
+      Uri.parse('http://localhost:8000/api/v1/user'),  // Adjust the endpoint for fetching user data
+      headers: {
+        'Authorization': 'Bearer $bearerToken',
+        'Accept': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final userData = json.decode(response.body);
+      setState(() {
+        _nameController.text = userData['name'] ?? '';  // Default to an empty string if null
+        _emailController.text = userData['email'] ?? '';  // Default to an empty string if null
+      });
+    } else {
+      // Handle error if needed
+      print('Failed to fetch user data. Status code: ${response.statusCode}');
+    }
+  }
+
+  Future<void> updateProfile() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String bearerToken = prefs.getString('bearerToken') ?? '';
+
+    final response = await http.put(
+      Uri.parse('http://localhost:8000/api/v1/user/update'),  // Adjust the endpoint for updating user data
+      headers: {
+        'Authorization': 'Bearer $bearerToken',
+        'Accept': 'application/json',
+      },
+      body: {
+        'name': _nameController.text,
+        'email': _emailController.text,
+        'password': _passwordController.text,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // Show success notification
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Profile updated successfully!'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } else {
+      // Handle error if needed
+      final responseData = json.decode(response.body);
+      setState(() {
+        _errorMessage = responseData['message'];
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -16,53 +94,40 @@ class ProfilPage extends StatelessWidget {
             ),
           ),
         ),
-        GestureDetector(
-          onTap: () {
-            // Handle image click (for editing, etc.)
-            // You can implement the functionality you need here
-          },
-          child: Column(
-            children: [
-              Image.asset('assets/images/example1.png'),
-              SizedBox(height: 10),
-              Text(
-                'Tap to Edit',
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height: 20),
-        buildTextFormField('Ihsan Tampan', 'Full Name'),
-        buildTextFormField('Ihsantampan123@gmail.com', 'Email'),
-        buildTextFormField('', 'New Password', isPassword: true),
+        buildTextFormField(_nameController, 'Full Name'),
+        buildTextFormField(_emailController, 'Email'),
+        buildTextFormField(_passwordController, 'New Password', isPassword: true),
         SizedBox(height: 20),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 50),
           child: ElevatedButton(
-            onPressed: () {
-              // Handle edit button click
-            },
+            onPressed: updateProfile,
             child: Text('Edit'),
           ),
         ),
+        if (_errorMessage.isNotEmpty)
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            child: Text(
+              _errorMessage,
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
       ],
     );
   }
 
-  Widget buildTextFormField(String hintText, String label, {bool isPassword = false}) {
+  Widget buildTextFormField(TextEditingController controller, String label, {bool isPassword = false}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 50),
       child: TextFormField(
+        controller: controller,
         obscureText: isPassword,
         decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,
           contentPadding: EdgeInsets.all(15),
-          hintText: hintText,
+          hintText: controller.text.isEmpty ? null : controller.text,
           labelText: label,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
